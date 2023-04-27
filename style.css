@@ -1,0 +1,42 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.keyboard {
+    width: 771px;
+    margin: 0 auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 10px;
+    background: gray;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.key {
+    min-width: 40px;
+    height: 40px;
+    padding: 10px;
+    background-color: #111111;
+    color: #ffffff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space {
+    width: 331px;
+}
+
+.shift,
+.enter,
+.caps,
+.backspace {
+    min-width: 90px;
+    flex-grow: 2;
+}
