@@ -1,12 +1,12 @@
 class Keyboard {
-    constructor(lng) {
-        this.language = lng;
+    constructor() {
+        this.keyboard = {};
     }
 
-    getKeyboardHTML(keys) {
-        let keyboard = document.createElement('div');
-        keyboard.classList.add('keyboard');
-        for (let i = 0; i < 64; i++) { // 64 is number of keys
+    setBase() {
+        this.keyboard = document.createElement('div');
+        this.keyboard.classList.add('keyboard');
+        for (let i = 0; i < 64; i++) { // 64 is the number of keys
             let key = document.createElement('div');
             key.classList.add('key');
             switch (i) {
@@ -24,7 +24,7 @@ class Keyboard {
                     break;
                 case 29:
                     key.classList.add('caps');
-                    key.textContent = 'CapsLock';
+                    key.textContent = 'Caps';
                     break;
                 case 41:
                     key.classList.add('enter');
@@ -69,10 +69,25 @@ class Keyboard {
                     key.classList.add('arrow-right');
                     key.textContent = '→';
                     break;
+                default:
+                    key.classList.add('char');
+                    break;
             }
-            keyboard.append(key);
+            this.keyboard.append(key);
         }
-        return keyboard;
+        return this;
+    }
+
+    setKeys(keys) {
+        let chars = Array.from(this.keyboard.children).filter(key => key.classList.contains('char'));
+        for (let i = 0; i < keys.length; i++) {
+            chars[i].textContent = keys[i];
+        }
+        return this;
+    }
+
+    get() {
+        return this.keyboard;
     }
 }
 
@@ -96,6 +111,17 @@ const RU_KEYBOARD_SHIFT = ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', 
     'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э',
     'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','];
 
-let CURRENT_LANG = localStorage.getItem('lng') || 'en';
-let keyboard = new Keyboard(CURRENT_LANG);
-document.body.append(keyboard.getKeyboardHTML(EN_KEYBOARD)); 
+let textarea = document.createElement("textarea");
+textarea.classList.add("textarea");
+document.body.append(textarea);
+
+let CURRENT_LANG = localStorage.getItem("lng") || "en";
+let keyboard = new Keyboard();
+keyboard.setBase().setKeys(EN_KEYBOARD);
+document.body.append(keyboard.get());
+
+let info = document.createElement("h2");
+info.classList.add("info");
+info.innerText = `Клавиатура создана в операционной системе Windows. 
+                  Для переключения языка комбинация: левыe shift + alt`;
+document.body.append(info);

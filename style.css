@@ -15,6 +15,7 @@
     background: gray;
     border-radius: 10px;
     border: 1px solid black;
+    user-select: none;
 }
 
 .key {
@@ -29,6 +30,14 @@
     align-items: center;
 }
 
+.key:hover {
+    transform: scale(1.05);
+}
+
+.char {
+    background-color: #333333;
+}
+
 .space {
     width: 331px;
 }
@@ -39,4 +48,18 @@
 .backspace {
     min-width: 90px;
     flex-grow: 2;
+}
+
+.textarea {
+    display: block;
+    width: 771px;
+    height: 40vh;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+.info {
+    width: 771px;
+    margin: 10px auto;
+
 }
