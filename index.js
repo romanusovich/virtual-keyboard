@@ -37,6 +37,22 @@ class Keyboard {
                 case 28:
                     key.classList.add('del');
                     key.textContent = 'Del';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + ta.value.substring(end + 1, ta.value.length);
+                            ta.selectionStart = start;
+                            ta.selectionEnd = end;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start;
+                            ta.selectionEnd = start;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 29:
                     key.classList.add('caps');
@@ -98,7 +114,7 @@ class Keyboard {
         let chars = Array.from(this.keyboard.children).filter(key => key.classList.contains('char'));
         for (let i = 0; i < keys.length; i++) {
             chars[i].textContent = keys[i];
-            chars[i].onclick = (event) => {
+            chars[i].onclick = () => {
                 let ta = document.querySelector('.textarea');
                 let start = ta.selectionStart;
                 let end = ta.selectionEnd;
