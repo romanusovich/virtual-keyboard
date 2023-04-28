@@ -33,6 +33,22 @@ class Keyboard {
                 case 14:
                     key.classList.add('tab');
                     key.textContent = 'Tab';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 4;
+                            ta.selectionEnd = end + 4;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 4;
+                            ta.selectionEnd = start + 4;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 28:
                     key.classList.add('del');
