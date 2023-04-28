@@ -13,6 +13,22 @@ class Keyboard {
                 case 13:
                     key.classList.add('backspace');
                     key.textContent = 'Backspace';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start - 1) + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start - 1;
+                            ta.selectionEnd = end - 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start;
+                            ta.selectionEnd = start;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 14:
                     key.classList.add('tab');
@@ -82,6 +98,22 @@ class Keyboard {
         let chars = Array.from(this.keyboard.children).filter(key => key.classList.contains('char'));
         for (let i = 0; i < keys.length; i++) {
             chars[i].textContent = keys[i];
+            chars[i].onclick = (event) => {
+                let ta = document.querySelector('.textarea');
+                let start = ta.selectionStart;
+                let end = ta.selectionEnd;
+                if (start === end) {
+                    ta.value = ta.value.substring(0, start) + keys[i] + ta.value.substring(end, ta.value.length);
+                    ta.selectionStart = start + 1;
+                    ta.selectionEnd = end + 1;
+                }
+                else {
+                    ta.value = ta.value.substring(0, start) + keys[i] + ta.value.substring(end, ta.value.length);
+                    ta.selectionStart = start + 1;
+                    ta.selectionEnd = start + 1;
+                }
+                ta.focus();
+            };
         }
         return this;
     }

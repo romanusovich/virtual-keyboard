@@ -55,11 +55,12 @@
     width: 771px;
     height: 40vh;
     margin: 10px auto;
+    padding: 10px;
     border-radius: 5px;
 }
 
 .info {
     width: 771px;
     margin: 10px auto;
-
+    user-select: none;
 }
