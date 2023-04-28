@@ -104,6 +104,22 @@ class Keyboard {
                 case 58:
                     key.classList.add('space');
                     key.textContent = '_____';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + ' ' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + ' ' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 60:
                     key.classList.add('arrow-left');
