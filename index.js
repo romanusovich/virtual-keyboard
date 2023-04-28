@@ -136,18 +136,82 @@ class Keyboard {
                 case 53:
                     key.classList.add('arrow-up');
                     key.textContent = '↑';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + '↑' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + '↑' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 60:
                     key.classList.add('arrow-left');
                     key.textContent = '←';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + '←' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + '←' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 61:
                     key.classList.add('arrow-down');
                     key.textContent = '↓';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + '↓' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + '↓' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
+                        }
+                        ta.focus();
+                    };
                     break;
                 case 62:
                     key.classList.add('arrow-right');
                     key.textContent = '→';
+                    key.onclick = () => {
+                        let ta = document.querySelector('.textarea');
+                        let start = ta.selectionStart;
+                        let end = ta.selectionEnd;
+                        if (start === end) {
+                            ta.value = ta.value.substring(0, start) + '→' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
+                        }
+                        else {
+                            ta.value = ta.value.substring(0, start) + '→' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
+                        }
+                        ta.focus();
+                    };
                     break;
                 default:
                     key.classList.add('char');
