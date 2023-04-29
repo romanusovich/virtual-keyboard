@@ -1,37 +1,58 @@
-const EN_KEYBOARD = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
+const EN_KEYBOARD = [
+    "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
     "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
     "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\'",
-    "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"];
+    "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"
+];
 
-const EN_KEYBOARD_SHIFT = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+',
+const EN_KEYBOARD_SHIFT = [
+    '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+',
     'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|',
     'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '\"',
-    'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?'];
+    'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?'
+];
 
-const RU_KEYBOARD = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
+const RU_KEYBOARD = [
+    "ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
     "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "\\",
     "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э",
-    "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "."];
+    "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "."
+];
 
-const RU_KEYBOARD_SHIFT = ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+',
+const RU_KEYBOARD_SHIFT = [
+    'Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+',
     'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/',
     'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э',
-    'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','];
+    'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','
+];
 
 class Keyboard {
-    constructor(lng) {
+    constructor() {
         this.keyboard = {};
-        this.lng = lng;
+        this.lng = localStorage.getItem("lng") ? localStorage.getItem("lng") : "en";
     }
 
     setShift() {
         if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
-        else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
+        else this.setKeys(RU_KEYBOARD_SHIFT);
     }
 
     unsetShift() {
         if (this.lng === "en") this.setKeys(EN_KEYBOARD);
-        else this.keyboard.setKeys(RU_KEYBOARD);
+        else this.setKeys(RU_KEYBOARD);
+    }
+
+    changeLng() {
+        if (this.lng === "en") {
+            this.lng = "ru";
+            localStorage.setItem("lng", "ru");
+            this.setKeys(RU_KEYBOARD);
+        }
+        else {
+            this.lng = "en";
+            localStorage.setItem("lng", "en");
+            this.setKeys(EN_KEYBOARD);
+        }
     }
 
     setBase() {
@@ -107,8 +128,15 @@ class Keyboard {
                     key.onclick = (event) => {
                         let caps = event.target;
                         caps.classList.toggle("active");
-                        if (caps.classList.contains("active")) this.setShift();
-                        else this.unsetShift();
+                        let isAnyActive = Array.from(document.querySelectorAll(".shift"))
+                            .filter(shift => shift.classList.contains("active")).length > 0;
+                        if (!isAnyActive) {
+                            if (caps.classList.contains("active")) this.setShift();
+                            else this.unsetShift();
+                        } else {
+                            if (!caps.classList.contains("active")) this.setShift();
+                            else this.unsetShift();
+                        }
                     };
                     break;
                 case 41:
@@ -136,15 +164,27 @@ class Keyboard {
                     key.classList.add('shift');
                     key.textContent = 'Shift';
                     key.onclick = (event) => {
-                        let shifts = Array.from(document.querySelectorAll(".shift"));
-                        shifts.map(shift => shift.classList.toggle("active"));
+                        let isAnyActive = Array.from(document.querySelectorAll(".shift"))
+                            .filter(shift => shift.classList.contains("active")).length > 1;
+                        let shift = event.target;
+                        shift.classList.toggle("active");
                         let caps = document.querySelector(".caps");
-                        if (!caps.classList.contains("active")) {
-                            if (shifts[0].classList.contains("active")) this.setShift(); 
-                            else this.unsetShift();
-                        } else {
-                            if (!shifts[0].classList.contains("active")) this.setShift(); 
-                            else this.unsetShift();
+                        if (!isAnyActive) {
+                            if (!caps.classList.contains("active")) {
+                                if (shift.classList.contains("active")) this.setShift();
+                                else this.unsetShift();
+                            } else {
+                                if (!shift.classList.contains("active")) this.setShift();
+                                else this.unsetShift();
+                            }
+                        }
+
+                        let lalt = document.querySelector(".alt");
+                        let lshift = document.querySelector(".shift");
+                        if (lshift.classList.contains("active") && lalt.classList.contains("active")) {
+                            this.changeLng();
+                            lalt.classList.remove("active");
+                            lshift.click();
                         }
                     };
                     break;
@@ -161,6 +201,16 @@ class Keyboard {
                 case 59:
                     key.classList.add('alt');
                     key.textContent = 'Alt';
+                    key.onclick = (event) => {
+                        event.target.classList.toggle("active")
+                        let lalt = document.querySelector(".alt");
+                        let lshift = document.querySelector(".shift");
+                        if (lshift.classList.contains("active") && lalt.classList.contains("active")) {
+                            this.changeLng();
+                            lalt.classList.remove("active");
+                            lshift.click();
+                        }
+                    }
                     break;
                 case 58:
                     key.classList.add('space');
@@ -306,9 +356,9 @@ let textarea = document.createElement("textarea");
 textarea.classList.add("textarea");
 document.body.append(textarea);
 
-let CURRENT_LANG = localStorage.getItem("lng") || "en";
-let keyboard = new Keyboard(CURRENT_LANG);
-keyboard.setBase().setKeys(EN_KEYBOARD);
+let keyboard = new Keyboard();
+if (keyboard.lng === "en") keyboard.setBase().setKeys(EN_KEYBOARD);
+else keyboard.setBase().setKeys(RU_KEYBOARD);
 document.body.append(keyboard.get());
 
 let info = document.createElement("h2");
