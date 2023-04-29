@@ -42,6 +42,16 @@ class Keyboard {
         else this.setKeys(RU_KEYBOARD);
     }
 
+    setCaps() {
+        let chars = Array.from(document.querySelectorAll(".char"));
+        chars.map(char => char.textContent = char.textContent.toUpperCase());
+    }
+
+    unsetCaps() {
+        let chars = Array.from(document.querySelectorAll(".char"));
+        chars.map(char => char.textContent = char.textContent.toLowerCase());
+    }
+
     changeLng() {
         if (this.lng === "en") {
             this.lng = "ru";
@@ -131,11 +141,11 @@ class Keyboard {
                         let isAnyActive = Array.from(document.querySelectorAll(".shift"))
                             .filter(shift => shift.classList.contains("active")).length > 0;
                         if (!isAnyActive) {
-                            if (caps.classList.contains("active")) this.setShift();
-                            else this.unsetShift();
+                            if (caps.classList.contains("active")) this.setCaps();
+                            else this.unsetCaps();
                         } else {
-                            if (!caps.classList.contains("active")) this.setShift();
-                            else this.unsetShift();
+                            if (!caps.classList.contains("active")) this.setCaps();
+                            else this.unsetCaps();
                         }
                     });
                     break;
@@ -174,8 +184,14 @@ class Keyboard {
                                 if (shift.classList.contains("active")) this.setShift();
                                 else this.unsetShift();
                             } else {
-                                if (!shift.classList.contains("active")) this.setShift();
-                                else this.unsetShift();
+                                if (!shift.classList.contains("active")) { 
+                                    this.unsetShift(); 
+                                    this.setCaps(); 
+                                }
+                                else { 
+                                    this.setShift();
+                                    this.unsetCaps(); 
+                                }
                             }
                         }
 
