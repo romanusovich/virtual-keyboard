@@ -113,7 +113,7 @@ class Keyboard {
                     });
                     break;
                 case 28:
-                    key.classList.add('del');
+                    key.classList.add('delete');
                     key.textContent = 'Del';
                     key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
@@ -133,7 +133,7 @@ class Keyboard {
                     });
                     break;
                 case 29:
-                    key.classList.add('caps');
+                    key.classList.add('capslock');
                     key.textContent = 'Caps';
                     key.addEventListener("click", (event) => {
                         let caps = event.target;
@@ -172,13 +172,15 @@ class Keyboard {
                 case 42:
                 case 54:
                     key.classList.add('shift');
+                    if (i === 42) key.classList.add('shiftleft');
+                    else key.classList.add('shiftright');
                     key.textContent = 'Shift';
                     key.addEventListener("click", (event) => {
                         let isAnyActive = Array.from(document.querySelectorAll(".shift"))
                             .filter(shift => shift.classList.contains("active")).length > 1;
                         let shift = event.target;
                         shift.classList.toggle("active");
-                        let caps = document.querySelector(".caps");
+                        let caps = document.querySelector(".capslock");
                         if (!isAnyActive) {
                             if (!caps.classList.contains("active")) {
                                 if (shift.classList.contains("active")) this.setShift();
@@ -206,14 +208,16 @@ class Keyboard {
                     break;
                 case 55:
                 case 63:
-                    key.classList.add('ctrl');
+                    key.classList.add('control');
+                    if (i === 55) key.classList.add('controlleft');
+                    else key.classList.add('controlright');
                     key.textContent = 'Ctrl';
                     key.addEventListener("click", (event) => {
                         event.target.classList.toggle("active");
                     });
                     break;
                 case 56:
-                    key.classList.add('win');
+                    key.classList.add('meta');
                     key.textContent = 'Win';
                     key.addEventListener("click", (event) => {
                         event.target.classList.toggle("active");
@@ -222,6 +226,8 @@ class Keyboard {
                 case 57:
                 case 59:
                     key.classList.add('alt');
+                    if (i === 57) key.classList.add('altleft');
+                    else key.classList.add('altright');
                     key.textContent = 'Alt';
                     key.addEventListener("click", (event) => {
                         event.target.classList.toggle("active")
@@ -255,7 +261,7 @@ class Keyboard {
                     });
                     break;
                 case 53:
-                    key.classList.add('arrow-up');
+                    key.classList.add('arrowup');
                     key.textContent = '↑';
                     key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
@@ -275,7 +281,7 @@ class Keyboard {
                     });
                     break;
                 case 60:
-                    key.classList.add('arrow-left');
+                    key.classList.add('arrowleft');
                     key.textContent = '←';
                     key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
@@ -295,7 +301,7 @@ class Keyboard {
                     });
                     break;
                 case 61:
-                    key.classList.add('arrow-down');
+                    key.classList.add('arrowdown');
                     key.textContent = '↓';
                     key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
@@ -315,7 +321,7 @@ class Keyboard {
                     });
                     break;
                 case 62:
-                    key.classList.add('arrow-right');
+                    key.classList.add('arrowright');
                     key.textContent = '→';
                     key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
@@ -364,7 +370,7 @@ class Keyboard {
                 ta.focus();
                 let shifts = Array.from(document.querySelectorAll(".shift"));
                 shifts.map(shift => shift.classList.remove("active"));
-                let caps = document.querySelector(".caps");
+                let caps = document.querySelector(".capslock");
                 if (!caps.classList.contains("active")) {
                     this.setShift();
                     this.unsetCaps();
@@ -378,6 +384,26 @@ class Keyboard {
     }
 
     get() {
+        document.addEventListener("keydown", (event) => {
+            if (event.key.length > 1) {
+                
+            } else {
+                let chars = Array.from(document.querySelectorAll(".char"));
+                let pressed = chars.filter(char => char.textContent === event.key);
+                pressed[0].classList.add("active");
+            }
+        });
+
+        document.addEventListener("keyup", (event) => {
+            if (event.key.length > 1) {
+                
+            } else {
+                let chars = Array.from(document.querySelectorAll(".char"));
+                let pressed = chars.filter(char => char.textContent.toLowerCase() === event.key.toLowerCase());
+                pressed[0].classList.remove("active");
+            }
+        });
+
         return this.keyboard;
     }
 }

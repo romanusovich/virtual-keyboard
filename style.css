@@ -52,7 +52,7 @@
 
 .shift,
 .enter,
-.caps,
+.capslock,
 .backspace {
     min-width: 90px;
     flex-grow: 2;
