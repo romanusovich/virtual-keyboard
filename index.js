@@ -24,6 +24,16 @@ class Keyboard {
         this.lng = lng;
     }
 
+    setShift() {
+        if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
+        else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
+    }
+
+    unsetShift() {
+        if (this.lng === "en") this.setKeys(EN_KEYBOARD);
+        else this.keyboard.setKeys(RU_KEYBOARD);
+    }
+
     setBase() {
         this.keyboard = document.createElement('div');
         this.keyboard.classList.add('keyboard');
@@ -96,14 +106,9 @@ class Keyboard {
                     key.textContent = 'Caps';
                     key.onclick = (event) => {
                         let caps = event.target;
-                        caps.classList.toggle('active');
-                        if (caps.classList.contains('active')) {
-                            if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
-                            else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
-                        } else {
-                            if (this.lng === "en") this.setKeys(EN_KEYBOARD);
-                            else this.keyboard.setKeys(RU_KEYBOARD);
-                        }
+                        caps.classList.toggle("active");
+                        if (caps.classList.contains("active")) this.setShift();
+                        else this.unsetShift();
                     };
                     break;
                 case 41:
@@ -133,14 +138,14 @@ class Keyboard {
                     key.onclick = (event) => {
                         let shifts = Array.from(document.querySelectorAll(".shift"));
                         shifts.map(shift => shift.classList.toggle("active"));
-                        if (shifts[0].classList.contains('active')) {
-                            if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
-                            else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
+                        let caps = document.querySelector(".caps");
+                        if (!caps.classList.contains("active")) {
+                            if (shifts[0].classList.contains("active")) this.setShift(); 
+                            else this.unsetShift();
                         } else {
-                            if (this.lng === "en") this.setKeys(EN_KEYBOARD);
-                            else this.keyboard.setKeys(RU_KEYBOARD);
+                            if (!shifts[0].classList.contains("active")) this.setShift(); 
+                            else this.unsetShift();
                         }
-                        
                     };
                     break;
                 case 55:
@@ -285,7 +290,7 @@ class Keyboard {
                     ta.selectionEnd = start + 1;
                 }
                 ta.focus();
-                if (document.querySelector(".shift").classList.contains("active")) 
+                if (document.querySelector(".shift").classList.contains("active"))
                     document.querySelector(".shift").click();
             };
         }
