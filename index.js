@@ -90,14 +90,14 @@ class Keyboard {
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
                         if (start === end) {
-                            ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end, ta.value.length);
-                            ta.selectionStart = start + 4;
-                            ta.selectionEnd = end + 4;
+                            ta.value = ta.value.substring(0, start) + '\t' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = end + 1;
                         }
                         else {
-                            ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end, ta.value.length);
-                            ta.selectionStart = start + 4;
-                            ta.selectionEnd = start + 4;
+                            ta.value = ta.value.substring(0, start) + '\t' + ta.value.substring(end, ta.value.length);
+                            ta.selectionStart = start + 1;
+                            ta.selectionEnd = start + 1;
                         }
                         ta.focus();
                     };
