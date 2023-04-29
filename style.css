@@ -22,8 +22,8 @@
     min-width: 40px;
     height: 40px;
     padding: 10px;
-    background-color: #111111;
-    color: #ffffff;
+    background-color: #111;
+    color: #fff;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -34,8 +34,13 @@
     transform: scale(1.05);
 }
 
+.key.active {
+    background-color: #777;
+    transform: scale(0.95);
+}
+
 .char {
-    background-color: #333333;
+    background-color: #333;
 }
 
 .space {

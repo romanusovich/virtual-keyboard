@@ -1,6 +1,27 @@
+const EN_KEYBOARD = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
+    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
+    "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\'",
+    "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"];
+
+const EN_KEYBOARD_SHIFT = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+',
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|',
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '\"',
+    'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?'];
+
+const RU_KEYBOARD = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
+    "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "\\",
+    "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э",
+    "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "."];
+
+const RU_KEYBOARD_SHIFT = ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+',
+    'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/',
+    'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э',
+    'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','];
+
 class Keyboard {
-    constructor() {
+    constructor(lng) {
         this.keyboard = {};
+        this.lng = lng;
     }
 
     setBase() {
@@ -73,6 +94,17 @@ class Keyboard {
                 case 29:
                     key.classList.add('caps');
                     key.textContent = 'Caps';
+                    key.onclick = (event) => {
+                        let caps = event.target;
+                        caps.classList.toggle('active');
+                        if (caps.classList.contains('active')) {
+                            if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
+                            else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
+                        } else {
+                            if (this.lng === "en") this.setKeys(EN_KEYBOARD);
+                            else this.keyboard.setKeys(RU_KEYBOARD);
+                        }
+                    };
                     break;
                 case 41:
                     key.classList.add('enter');
@@ -98,6 +130,18 @@ class Keyboard {
                 case 54:
                     key.classList.add('shift');
                     key.textContent = 'Shift';
+                    key.onclick = (event) => {
+                        let shifts = Array.from(document.querySelectorAll(".shift"));
+                        shifts.map(shift => shift.classList.toggle("active"));
+                        if (shifts[0].classList.contains('active')) {
+                            if (this.lng === "en") this.setKeys(EN_KEYBOARD_SHIFT);
+                            else this.keyboard.setKeys(RU_KEYBOARD_SHIFT);
+                        } else {
+                            if (this.lng === "en") this.setKeys(EN_KEYBOARD);
+                            else this.keyboard.setKeys(RU_KEYBOARD);
+                        }
+                        
+                    };
                     break;
                 case 55:
                 case 63:
@@ -241,6 +285,8 @@ class Keyboard {
                     ta.selectionEnd = start + 1;
                 }
                 ta.focus();
+                if (document.querySelector(".shift").classList.contains("active")) 
+                    document.querySelector(".shift").click();
             };
         }
         return this;
@@ -251,32 +297,12 @@ class Keyboard {
     }
 }
 
-const EN_KEYBOARD = ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
-    "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
-    "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "\'",
-    "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"];
-
-const EN_KEYBOARD_SHIFT = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+',
-    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|',
-    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '\"',
-    'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?'];
-
-const RU_KEYBOARD = ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
-    "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "\\",
-    "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э",
-    "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "."];
-
-const RU_KEYBOARD_SHIFT = ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+',
-    'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/',
-    'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э',
-    'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','];
-
 let textarea = document.createElement("textarea");
 textarea.classList.add("textarea");
 document.body.append(textarea);
 
 let CURRENT_LANG = localStorage.getItem("lng") || "en";
-let keyboard = new Keyboard();
+let keyboard = new Keyboard(CURRENT_LANG);
 keyboard.setBase().setKeys(EN_KEYBOARD);
 document.body.append(keyboard.get());
 
