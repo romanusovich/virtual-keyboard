@@ -65,7 +65,7 @@ class Keyboard {
                 case 13:
                     key.classList.add('backspace');
                     key.textContent = 'Backspace';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -80,12 +80,12 @@ class Keyboard {
                             ta.selectionEnd = start;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 14:
                     key.classList.add('tab');
                     key.textContent = 'Tab';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -100,12 +100,12 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 28:
                     key.classList.add('del');
                     key.textContent = 'Del';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -120,12 +120,12 @@ class Keyboard {
                             ta.selectionEnd = start;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 29:
                     key.classList.add('caps');
                     key.textContent = 'Caps';
-                    key.onclick = (event) => {
+                    key.addEventListener("click", (event) => {
                         let caps = event.target;
                         caps.classList.toggle("active");
                         let isAnyActive = Array.from(document.querySelectorAll(".shift"))
@@ -137,12 +137,12 @@ class Keyboard {
                             if (!caps.classList.contains("active")) this.setShift();
                             else this.unsetShift();
                         }
-                    };
+                    });
                     break;
                 case 41:
                     key.classList.add('enter');
                     key.textContent = 'Enter';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -157,13 +157,13 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 42:
                 case 54:
                     key.classList.add('shift');
                     key.textContent = 'Shift';
-                    key.onclick = (event) => {
+                    key.addEventListener("click", (event) => {
                         let isAnyActive = Array.from(document.querySelectorAll(".shift"))
                             .filter(shift => shift.classList.contains("active")).length > 1;
                         let shift = event.target;
@@ -186,22 +186,28 @@ class Keyboard {
                             lalt.classList.remove("active");
                             lshift.click();
                         }
-                    };
+                    });
                     break;
                 case 55:
                 case 63:
                     key.classList.add('ctrl');
                     key.textContent = 'Ctrl';
+                    key.addEventListener("click", (event) => {
+                        event.target.classList.toggle("active");
+                    });
                     break;
                 case 56:
                     key.classList.add('win');
                     key.textContent = 'Win';
+                    key.addEventListener("click", (event) => {
+                        event.target.classList.toggle("active");
+                    });
                     break;
                 case 57:
                 case 59:
                     key.classList.add('alt');
                     key.textContent = 'Alt';
-                    key.onclick = (event) => {
+                    key.addEventListener("click", (event) => {
                         event.target.classList.toggle("active")
                         let lalt = document.querySelector(".alt");
                         let lshift = document.querySelector(".shift");
@@ -210,12 +216,12 @@ class Keyboard {
                             lalt.classList.remove("active");
                             lshift.click();
                         }
-                    }
+                    });
                     break;
                 case 58:
                     key.classList.add('space');
                     key.textContent = '_____';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -230,12 +236,12 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 53:
                     key.classList.add('arrow-up');
                     key.textContent = '↑';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -250,12 +256,12 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 60:
                     key.classList.add('arrow-left');
                     key.textContent = '←';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -270,12 +276,12 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 61:
                     key.classList.add('arrow-down');
                     key.textContent = '↓';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -290,12 +296,12 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 case 62:
                     key.classList.add('arrow-right');
                     key.textContent = '→';
-                    key.onclick = () => {
+                    key.addEventListener("click", () => {
                         let ta = document.querySelector('.textarea');
                         let start = ta.selectionStart;
                         let end = ta.selectionEnd;
@@ -310,7 +316,7 @@ class Keyboard {
                             ta.selectionEnd = start + 1;
                         }
                         ta.focus();
-                    };
+                    });
                     break;
                 default:
                     key.classList.add('char');
@@ -325,23 +331,29 @@ class Keyboard {
         let chars = Array.from(this.keyboard.children).filter(key => key.classList.contains('char'));
         for (let i = 0; i < keys.length; i++) {
             chars[i].textContent = keys[i];
-            chars[i].onclick = () => {
+            chars[i].onclick = (event) => {
                 let ta = document.querySelector('.textarea');
                 let start = ta.selectionStart;
                 let end = ta.selectionEnd;
                 if (start === end) {
-                    ta.value = ta.value.substring(0, start) + keys[i] + ta.value.substring(end, ta.value.length);
+                    ta.value = ta.value.substring(0, start) + event.target.textContent + ta.value.substring(end, ta.value.length);
                     ta.selectionStart = start + 1;
                     ta.selectionEnd = end + 1;
                 }
                 else {
-                    ta.value = ta.value.substring(0, start) + keys[i] + ta.value.substring(end, ta.value.length);
+                    ta.value = ta.value.substring(0, start) + event.target.textContent + ta.value.substring(end, ta.value.length);
                     ta.selectionStart = start + 1;
                     ta.selectionEnd = start + 1;
                 }
                 ta.focus();
-                if (document.querySelector(".shift").classList.contains("active"))
-                    document.querySelector(".shift").click();
+                let shifts = Array.from(document.querySelectorAll(".shift"));
+                shifts.map(shift => shift.classList.remove("active"));
+                let caps = document.querySelector(".caps");
+                if (!caps.classList.contains("active")) {
+                    this.unsetShift();
+                } else {
+                    this.setShift();
+                }
             };
         }
         return this;
