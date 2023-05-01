@@ -26,6 +26,15 @@ const RU_KEYBOARD_SHIFT = [
     'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','
 ];
 
+const KEY_CODES = [
+    "Backquote", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6",
+    "Digit7", "Digit8", "Digit9", "Digit0", "Minus", "Equal",
+    "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP",
+    "BracketLeft", "BracketRight", "Backslash",
+    "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote",
+    "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Slash"
+];
+
 class Keyboard {
     constructor() {
         this.keyboard = {};
@@ -186,13 +195,13 @@ class Keyboard {
                                 if (shift.classList.contains("active")) this.setShift();
                                 else this.unsetShift();
                             } else {
-                                if (!shift.classList.contains("active")) { 
-                                    this.unsetShift(); 
-                                    this.setCaps(); 
+                                if (!shift.classList.contains("active")) {
+                                    this.unsetShift();
+                                    this.setCaps();
                                 }
-                                else { 
+                                else {
                                     this.setShift();
-                                    this.unsetCaps(); 
+                                    this.unsetCaps();
                                 }
                             }
                         }
@@ -201,8 +210,10 @@ class Keyboard {
                         let lshift = document.querySelector(".shift");
                         if (lshift.classList.contains("active") && lalt.classList.contains("active")) {
                             this.changeLng();
-                            lalt.classList.remove("active");
-                            lshift.click();
+                            if (!event.target.classList.contains("real")) {
+                                lalt.classList.remove("active");
+                                lshift.click();
+                            }
                         }
                     });
                     break;
@@ -217,7 +228,7 @@ class Keyboard {
                     });
                     break;
                 case 56:
-                    key.classList.add('meta');
+                    key.classList.add('metaleft');
                     key.textContent = 'Win';
                     key.addEventListener("click", (event) => {
                         event.target.classList.toggle("active");
@@ -235,8 +246,10 @@ class Keyboard {
                         let lshift = document.querySelector(".shift");
                         if (lshift.classList.contains("active") && lalt.classList.contains("active")) {
                             this.changeLng();
-                            lalt.classList.remove("active");
-                            lshift.click();
+                            if (!event.target.classList.contains("real")) {
+                                lalt.click();
+                                lshift.click();
+                            }
                         }
                     });
                     break;
@@ -353,6 +366,7 @@ class Keyboard {
         let chars = Array.from(this.keyboard.children).filter(key => key.classList.contains('char'));
         for (let i = 0; i < keys.length; i++) {
             chars[i].textContent = keys[i];
+            chars[i].classList.add(KEY_CODES[i]);
             chars[i].onclick = (event) => {
                 let ta = document.querySelector('.textarea');
                 let start = ta.selectionStart;
@@ -368,12 +382,14 @@ class Keyboard {
                     ta.selectionEnd = start + 1;
                 }
                 ta.focus();
-                let shifts = Array.from(document.querySelectorAll(".shift"));
-                shifts.map(shift => shift.classList.remove("active"));
-                this.unsetShift();
-                let caps = document.querySelector(".capslock");
-                if (!caps.classList.contains("active")) this.unsetCaps();
-                else this.setCaps();
+                if (!event.target.classList.contains("real")) {
+                    let shifts = Array.from(document.querySelectorAll(".shift"));
+                    shifts.map(shift => shift.classList.remove("active"));
+                    this.unsetShift();
+                    let caps = document.querySelector(".capslock");
+                    if (!caps.classList.contains("active")) this.unsetCaps();
+                    else this.setCaps();
+                }
             };
         }
         return this;
@@ -381,22 +397,35 @@ class Keyboard {
 
     get() {
         document.addEventListener("keydown", (event) => {
+            document.querySelector('.textarea').focus();
             if (event.key.length > 1) {
-                
+                if (!event.repeat) {
+                    let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+                    pressed.classList.add("real");
+                    pressed.click();
+                }
             } else {
-                let chars = Array.from(document.querySelectorAll(".char"));
-                let pressed = chars.filter(char => char.textContent === event.key);
-                pressed[0].classList.add("active");
+                event.preventDefault();
+                let pressed = document.querySelector(`.${event.code}`);
+                pressed.classList.add("active");
+                pressed.classList.add("real");
+                pressed.click();
             }
         });
 
         document.addEventListener("keyup", (event) => {
+            document.querySelector('.textarea').focus();
             if (event.key.length > 1) {
-                
+                if (event.code !== "CapsLock") {
+                    let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+                    pressed.classList.remove("real");
+                    pressed.click();
+                }
             } else {
-                let chars = Array.from(document.querySelectorAll(".char"));
-                let pressed = chars.filter(char => char.textContent.toLowerCase() === event.key.toLowerCase());
-                pressed[0].classList.remove("active");
+                event.preventDefault();
+                let pressed = document.querySelector(`.${event.code}`);
+                pressed.classList.remove("active");
+                pressed.classList.remove("real");
             }
         });
 
@@ -416,5 +445,6 @@ document.body.append(keyboard.get());
 let info = document.createElement("h2");
 info.classList.add("info");
 info.innerText = `Клавиатура создана в операционной системе Windows. 
-                  Для переключения языка комбинация: левыe shift + alt`;
+                  Для переключения языка комбинация: левыe shift + alt.
+                  Для корректной работы язык на ОС должен совпадать с языком клавиатуры`;
 document.body.append(info);
