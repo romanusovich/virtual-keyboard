@@ -397,35 +397,65 @@ class Keyboard {
 
     get() {
         document.addEventListener("keydown", (event) => {
+            if (event.code === "Tab" ||
+                event.key === "Alt" ||
+                event.code === "ArrowLeft" ||
+                event.code === "ArrowRight" ||
+                event.code === "ArrowUp" ||
+                event.code === "Backspace" ||
+                event.code === "Space" ||
+                event.code === "Delete" ||
+                event.code === "ArrowDown") event.preventDefault();
+
             document.querySelector('.textarea').focus();
-            if (event.key.length > 1) {
-                if (!event.repeat) {
-                    let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+            try {
+                if (event.key.length > 1 || event.key === " ") {
+                    if (!event.repeat) {
+                        let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+                        pressed.classList.add("real");
+                        pressed.click();
+                        if (event.code !== "CapsLock") pressed.classList.add("active");
+                    }
+                } else {
+                    event.preventDefault();
+                    let pressed = document.querySelector(`.${event.code}`);
+                    pressed.classList.add("active");
                     pressed.classList.add("real");
                     pressed.click();
                 }
-            } else {
-                event.preventDefault();
-                let pressed = document.querySelector(`.${event.code}`);
-                pressed.classList.add("active");
-                pressed.classList.add("real");
-                pressed.click();
+            }
+            catch {
+
             }
         });
 
         document.addEventListener("keyup", (event) => {
             document.querySelector('.textarea').focus();
-            if (event.key.length > 1) {
-                if (event.code !== "CapsLock") {
-                    let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+            try {
+                if (event.key.length > 1 || event.key === " ") {
+                    if (event.code !== "CapsLock") {
+                        let pressed = document.querySelector(`.${event.code.toLowerCase()}`);
+                        pressed.classList.remove("real");
+                        if (event.code !== "Tab" &&
+                            event.key !== "Alt" &&
+                            event.code !== "ArrowLeft" &&
+                            event.code !== "ArrowRight" &&
+                            event.code !== "ArrowUp" &&
+                            event.code !== "Backspace" &&
+                            event.code !== "Space" &&
+                            event.code !== "Delete" &&
+                            event.code !== "ArrowDown") pressed.click();
+                        pressed.classList.remove("active");
+                    }
+                } else {
+                    event.preventDefault();
+                    let pressed = document.querySelector(`.${event.code}`);
+                    pressed.classList.remove("active");
                     pressed.classList.remove("real");
-                    pressed.click();
                 }
-            } else {
-                event.preventDefault();
-                let pressed = document.querySelector(`.${event.code}`);
-                pressed.classList.remove("active");
-                pressed.classList.remove("real");
+            }
+            catch {
+
             }
         });
 
