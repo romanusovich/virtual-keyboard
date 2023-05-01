@@ -372,7 +372,7 @@ class Keyboard {
                 shifts.map(shift => shift.classList.remove("active"));
                 let caps = document.querySelector(".capslock");
                 if (!caps.classList.contains("active")) {
-                    this.setShift();
+                    this.unsetShift();
                     this.unsetCaps();
                 } else {
                     this.unsetShift();
