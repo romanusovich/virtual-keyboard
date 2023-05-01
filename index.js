@@ -370,14 +370,10 @@ class Keyboard {
                 ta.focus();
                 let shifts = Array.from(document.querySelectorAll(".shift"));
                 shifts.map(shift => shift.classList.remove("active"));
+                this.unsetShift();
                 let caps = document.querySelector(".capslock");
-                if (!caps.classList.contains("active")) {
-                    this.unsetShift();
-                    this.unsetCaps();
-                } else {
-                    this.unsetShift();
-                    this.setCaps();
-                }
+                if (!caps.classList.contains("active")) this.unsetCaps();
+                else this.setCaps();
             };
         }
         return this;
